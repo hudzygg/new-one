@@ -257,6 +257,18 @@ app.get('/api/token/alpha', async (req, res) => {
 	}
 });
 
+app.get('/api/market', async (req, res) => {
+	try {
+		const ids = String(req.query.ids || 'bitcoin,ethereum,solana,binancecoin,cardano,toncoin,dogecoin,ripple').toLowerCase();
+		const url = 'https://api.coingecko.com/api/v3/coins/markets';
+		const query = { vs_currency:'usd', ids, order:'market_cap_desc', per_page:50, page:1, sparkline:false, price_change_percentage:'24h,7d' };
+		const { data } = await axios.get(url, { params: query, timeout: 10000 });
+		res.json(data);
+	} catch (e) {
+		res.status(500).json({ error: e.message || 'Market fetch failed' });
+	}
+});
+
 app.listen(PORT, () => {
 	console.log(`API server listening on http://localhost:${PORT}`);
 });

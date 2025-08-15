@@ -9,6 +9,8 @@ const formatNumber = (n) => {
 };
 
 const AlphaTracker = () => {
+	const [activeTab, setActiveTab] = useState('alpha'); // summary | per | alpha
+	const [walletAddress, setWalletAddress] = useState("");
 	const [tokenAddress, setTokenAddress] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
@@ -42,37 +44,62 @@ const AlphaTracker = () => {
 			<Seo title="AlphaTracker" />
 			<div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
 				<h1 style={{ margin: 0 }}>AlphaTracker</h1>
-			</div>
-			<div className="card" style={{ marginBottom: 12 }}>
-				<div className="row">
-					<input className="input" type="text" placeholder="0x... token contract" value={tokenAddress} onChange={(e) => setTokenAddress(e.target.value)} />
-					<button className="btn primary" onClick={() => onScan(0)} disabled={loading}>{loading ? 'Scanning…' : 'Find Early Buyers'}</button>
+				<div className="tabs">
+					<button className={`tab ${activeTab==='summary'?'active':''}`} onClick={()=> setActiveTab('summary')}>Wallet Summary</button>
+					<button className={`tab ${activeTab==='per'?'active':''}`} onClick={()=> setActiveTab('per')}>Per‑Token</button>
+					<button className={`tab ${activeTab==='alpha'?'active':''}`} onClick={()=> setActiveTab('alpha')}>Alpha by Token</button>
 				</div>
-				{error && <div className="label" style={{ color: '#fca5a5' }}>{error}</div>}
 			</div>
 
-			{rows.length > 0 && (
+			{activeTab === 'summary' && (
 				<div className="card">
-					<h3 style={{ marginTop: 0 }}>Early Buyers for {meta.tokenSymbol} ({meta.tokenName})</h3>
-					<div className="grid">
-						{rows.map((r, i) => (
-							<div key={`${r.wallet}-${i}`} className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-								<div>
-									<div style={{ fontWeight: 600 }}>{r.wallet.slice(0, 6)}...{r.wallet.slice(-4)}</div>
-									<div className="label">Alpha: {r.isAlpha ? '✅' : '❌'} • Win Rate: {formatNumber(r.winRate)}%</div>
-								</div>
-								<div className="row">
-									<a className="btn" href={`https://etherscan.io/address/${r.wallet}`} target="_blank" rel="noreferrer">Etherscan</a>
-								</div>
-							</div>
-						))}
+					<div className="row">
+						<input className="input" type="text" placeholder="0x... wallet address" value={walletAddress} onChange={(e)=> setWalletAddress(e.target.value)} />
+						<a className="btn primary" href={`/dashboard/?wallet=${encodeURIComponent(walletAddress)}`}>Open Summary</a>
 					</div>
-					{meta.hasMore && (
-						<div style={{ marginTop: 12 }}>
-							<button className="btn" onClick={() => onScan(meta.nextOffset)} disabled={loading}>Scan next 10</button>
+					<div className="label">Opens the dashboard to explore this wallet’s performance.</div>
+				</div>
+			)}
+
+			{activeTab === 'per' && (
+				<div className="card">
+					<div className="label">Use the Wallet Summary and settings to view Per‑Token breakdown. This tab is reserved for a dedicated per‑token page.</div>
+				</div>
+			)}
+
+			{activeTab === 'alpha' && (
+				<>
+					<div className="card" style={{ marginBottom: 12 }}>
+						<div className="row">
+							<input className="input" type="text" placeholder="0x... token contract" value={tokenAddress} onChange={(e) => setTokenAddress(e.target.value)} />
+							<button className="btn primary" onClick={() => onScan(0)} disabled={loading}>{loading ? 'Scanning…' : 'Find Early Buyers'}</button>
+						</div>
+						{error && <div className="label" style={{ color: '#fca5a5' }}>{error}</div>}
+					</div>
+					{rows.length > 0 && (
+						<div className="card">
+							<h3 style={{ marginTop: 0 }}>Early Buyers for {meta.tokenSymbol} ({meta.tokenName})</h3>
+							<div className="grid">
+								{rows.map((r, i) => (
+									<div key={`${r.wallet}-${i}`} className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+										<div>
+											<div style={{ fontWeight: 600 }}>{r.wallet.slice(0, 6)}...{r.wallet.slice(-4)}</div>
+											<div className="label">Alpha: {r.isAlpha ? '✅' : '❌'} • Win Rate: {formatNumber(r.winRate)}%</div>
+										</div>
+										<div className="row">
+											<a className="btn" href={`https://etherscan.io/address/${r.wallet}`} target="_blank" rel="noreferrer">Etherscan</a>
+										</div>
+									</div>
+								))}
+							</div>
+							{meta.hasMore && (
+								<div style={{ marginTop: 12 }}>
+									<button className="btn" onClick={() => onScan(meta.nextOffset)} disabled={loading}>Scan next 10</button>
+								</div>
+							)}
 						</div>
 					)}
-				</div>
+				</>
 			)}
 		</Layout>
 	);

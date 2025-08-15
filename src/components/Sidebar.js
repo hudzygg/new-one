@@ -17,6 +17,10 @@ const Sidebar = () => {
 					<span className="nav-emoji">🧠</span>
 					<span>AlphaTracker</span>
 				</Link>
+				<Link activeClassName="active" className="nav-item" to="/settings/">
+					<span className="nav-emoji">⚙️</span>
+					<span>Settings</span>
+				</Link>
 			</nav>
 			<div className="sidebar-footer">
 				<a href="https://etherscan.io/" target="_blank" rel="noreferrer" className="ext-link">Etherscan ↗</a>

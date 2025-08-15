@@ -18,3 +18,8 @@
   from = "/api/token/alpha"
   to = "/.netlify/functions/token-alpha"
   status = 200
+
+[[redirects]]
+  from = "/api/market"
+  to = "/.netlify/functions/market"
+  status = 200
