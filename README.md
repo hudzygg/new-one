@@ -103,38 +103,3 @@ Looking for more guidance? Full documentation for Gatsby lives [on the website](
 Gatsby Cloud is an end-to-end cloud platform specifically built for the Gatsby framework that combines a modern developer experience with an optimized, global edge network.
 
 <!-- AUTO-GENERATED-CONTENT:END -->
-
----
-
-# Swiftyy Web Dashboard (Local Run)
-
-This adds a local dashboard that mirrors your Telegram bot’s analytics:
-- Wallet summary (alpha flag, ROI, PnL, trades, volumes, dates)
-- Per-token breakdown with sorting, filters (show/hide), pagination
-- Alpha wallet scan by token (fetch 10 at a time)
-
-## Setup
-1) Node 18+ recommended. If using Node 20/22+, the scripts enable the OpenSSL legacy provider.
-2) Install deps:
-```
-npm install
-```
-3) Copy env file and add keys:
-```
-cp .env.example .env
-# Set SYVE_API_KEY and ETHERSCAN_API_KEY
-```
-
-## Run
-- Start API + Gatsby dev:
-```
-npm run dev
-```
-- Open `http://localhost:8000/dashboard`
-
-## API routes
-- GET `/api/wallet/summary?address=0x...`
-- GET `/api/wallet/tokens?address=0x...`
-- GET `/api/token/alpha?token=0x...&offset=0`
-
-Settings (sort, filters, pagination) are UI-only for now and mirror the bot’s toggles.
