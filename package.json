@@ -25,7 +25,8 @@
   "devDependencies": {
     "prettier": "2.4.1",
     "concurrently": "^8.2.2",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "cross-env": "^7.0.3"
   },
   "keywords": [
     "gatsby"
@@ -35,12 +36,12 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "start": "NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "server": "nodemon server/index.js",
-    "dev": "concurrently \"npm run server\" \"NODE_OPTIONS=--openssl-legacy-provider gatsby develop\""
+    "dev": "concurrently \"npm run server\" \"cross-env NODE_OPTIONS=--openssl-legacy-provider gatsby develop\""
   },
   "repository": {
     "type": "git",
