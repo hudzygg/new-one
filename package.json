@@ -41,7 +41,8 @@
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "server": "nodemon server/index.js",
-    "dev": "concurrently \"npm run server\" \"cross-env NODE_OPTIONS=--openssl-legacy-provider gatsby develop\""
+    "dev": "concurrently \"npm run server\" \"cross-env NODE_OPTIONS=--openssl-legacy-provider gatsby develop\"",
+    "build:netlify": "gatsby build"
   },
   "repository": {
     "type": "git",

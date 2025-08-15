@@ -102,6 +102,21 @@ Looking for more guidance? Full documentation for Gatsby lives [on the website](
 
 Gatsby Cloud is an end-to-end cloud platform specifically built for the Gatsby framework that combines a modern developer experience with an optimized, global edge network.
 
+## Deploy to Netlify
+
+- Create a new site on Netlify and link this folder (or connect a Git repo later).
+- Build command: `npm run build` (or `gatsby build`)
+- Publish directory: `public`
+- Functions directory: `netlify/functions`
+- Set environment variables in Netlify UI:
+  - `SYVE_API_KEY`
+  - `ETHERSCAN_API_KEY`
+- The frontend calls `/api/*` which are redirected to Netlify Functions via `netlify.toml`.
+
+### Automatic updates
+- If you connect this project to a Git repo and set Netlify to build from the repo, every push to your main branch will trigger an automatic deploy with your latest changes.
+- For non‑Git flow: drag‑and‑drop the folder or upload the zip in Netlify deploys; repeat when you update files.
+
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ---
