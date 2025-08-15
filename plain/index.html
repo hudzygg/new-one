@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Swiftyy</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<div class="shell">
+		<aside class="sidebar glass">
+			<div class="brand">
+				<span class="dot"></span>
+				<span class="text">Swiftyy</span>
+			</div>
+			<nav class="nav">
+				<a href="#" class="nav-item active" data-view="dashboard"><span>📊</span> <span>Dashboard</span></a>
+				<a href="#" class="nav-item" data-view="alpha"><span>🧠</span> <span>AlphaTracker</span></a>
+				<a href="#" class="nav-item" data-view="settings"><span>⚙️</span> <span>Settings</span></a>
+			</nav>
+			<div class="foot">
+				<a class="ext" target="_blank" href="https://etherscan.io/">Etherscan ↗</a>
+				<a class="ext" target="_blank" href="https://dexscreener.com/">DexScreener ↗</a>
+			</div>
+		</aside>
+		<section class="content">
+			<header class="top glass">
+				<div class="title">Swiftyy</div>
+				<div class="actions">
+					<a class="btn primary" data-view="dashboard" href="#">Dashboard</a>
+					<a class="btn" data-view="alpha" href="#">AlphaTracker</a>
+				</div>
+			</header>
+			<main class="main glass">
+				<!-- DASHBOARD -->
+				<div id="view-dashboard" class="view">
+					<div class="row between">
+						<h1>Market Dashboard</h1>
+						<div class="tabs">
+							<button class="tab active" disabled>Overview</button>
+							<button class="tab" data-view="alpha">AlphaTracker</button>
+						</div>
+					</div>
+					<div class="card">
+						<div class="row wrap">
+							<input id="market-filter" class="input" placeholder="bitcoin,ethereum,solana,binancecoin,cardano,toncoin,dogecoin,ripple" />
+							<button id="market-refresh" class="btn">Refresh</button>
+						</div>
+						<div id="market-error" class="label error" style="display:none;"></div>
+					</div>
+					<div id="market-loading" class="label" style="display:none;">Loading market…</div>
+					<div id="market-list" class="grid cols"></div>
+				</div>
+
+				<!-- ALPHA TRACKER -->
+				<div id="view-alpha" class="view" style="display:none;">
+					<div class="row between">
+						<h1>AlphaTracker</h1>
+						<div class="tabs">
+							<button class="tab" id="tab-summary">Wallet Summary</button>
+							<button class="tab" id="tab-per">Per‑Token</button>
+							<button class="tab active" id="tab-alpha">Alpha by Token</button>
+						</div>
+					</div>
+
+					<!-- Summary tab -->
+					<div id="alpha-summary" class="card" style="display:none;">
+						<div class="row wrap">
+							<input id="summary-wallet" class="input" placeholder="0x... wallet address" />
+							<button id="summary-open" class="btn primary">Open Summary</button>
+						</div>
+						<div class="label">Opens the dashboard to explore this wallet’s performance.</div>
+					</div>
+
+					<!-- Per-token tab (placeholder) -->
+					<div id="alpha-per" class="card" style="display:none;">
+						<div class="label">Use Wallet Summary and settings to view Per‑Token breakdown. Dedicated page can be added later.</div>
+					</div>
+
+					<!-- Alpha by token tab -->
+					<div id="alpha-alpha" class="card">
+						<div class="row wrap">
+							<input id="alpha-token" class="input" placeholder="0x... token contract" />
+							<button id="alpha-scan" class="btn primary">Find Early Buyers</button>
+						</div>
+						<div id="alpha-error" class="label error" style="display:none;"></div>
+					</div>
+					<div id="alpha-list" class="grid" style="display:none;"></div>
+					<div id="alpha-more" style="display:none; margin-top:12px;">
+						<button class="btn" id="alpha-next">Scan next 10</button>
+					</div>
+				</div>
+
+				<!-- SETTINGS -->
+				<div id="view-settings" class="view" style="display:none;">
+					<h1>Settings</h1>
+					<div class="card">
+						<div class="row wrap">
+							<label class="label"><input type="radio" name="sort" value="pnl" checked /> Sort by PnL</label>
+							<label class="label"><input type="radio" name="sort" value="date" /> Sort by Last Trade Date</label>
+						</div>
+						<div class="row wrap">
+							<label class="label"><input type="checkbox" id="set-overview" checked /> Show Overview</label>
+							<label class="label"><input type="checkbox" id="set-trades" checked /> Show Trades</label>
+							<label class="label"><input type="checkbox" id="set-balance" checked /> Show Balance</label>
+							<label class="label"><input type="checkbox" id="set-small" checked /> Show Small Positions (&lt; $30 PnL)</label>
+							<label class="label">Tokens per page:
+								<select id="set-tpp">
+									<option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option>
+								</select>
+							</label>
+						</div>
+						<button id="settings-save" class="btn primary">Save</button>
+					</div>
+				</div>
+
+			</main>
+			<footer class="footnote">© <span id="year"></span> Swiftyy</footer>
+		</section>
+	</div>
+
+	<script src="config.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
