@@ -135,77 +135,50 @@ const Dashboard = () => {
 		<Layout>
 			<Seo title="Dashboard" />
 
-			<h1>Swiftyy Dashboard</h1>
-
-			<section style={{ marginBottom: 32 }}>
-				<h2>Wallet Scan</h2>
-				<div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-					<input
-						type="text"
-						placeholder="0x... wallet address"
-						value={walletAddress}
-						onChange={(e) => setWalletAddress(e.target.value)}
-						style={{ flex: 1, minWidth: 320, padding: 8 }}
-					/>
-					<button onClick={onScanWallet} disabled={loadingSummary || loadingTokens}>
-						{loadingSummary || loadingTokens ? "Scanning..." : "Scan Wallet"}
-					</button>
+			<div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+				<h1 style={{ margin: 0 }}>Dashboard</h1>
+				<div className="tabs">
+					<button className="tab active">Wallet Summary</button>
+					<button className="tab">Per‑Token</button>
+					<button className="tab" onClick={() => { window.location.href = '/alpha-tracker/'; }}>Alpha by Token</button>
 				</div>
-				{error && <p style={{ color: "#d00" }}>{error}</p>}
+			</div>
 
-				{summary && (
-					<div style={{ marginTop: 16, padding: 16, border: "1px solid #eee", borderRadius: 8 }}>
-						<h3 style={{ marginTop: 0 }}>Wallet Summary</h3>
-						<p>
-							<strong>Alpha Wallet:</strong> {isAlphaWallet ? "Yes ✅" : "No ❌"}
-						</p>
-						<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
-							<div>Investment: ${formatNumber(summary.total_investment)}</div>
-							<div>Value: ${formatNumber(summary.total_value)}</div>
-							<div>Profit: ${formatNumber(summary.total_profit)}</div>
-							<div>ROI: {formatNumber(summary.total_return)}%</div>
-							<div>Win Rate: {formatNumber((summary.win_rate || 0) * 100)}%</div>
-							<div>Trades: {summary.total_trades}</div>
-							<div>Buy Vol: ${formatNumber(summary.total_buy_volume)}</div>
-							<div>Sell Vol: ${formatNumber(summary.total_sell_volume)}</div>
-						</div>
-						{(summary.first_trade_timestamp || summary.last_trade_timestamp) && (
-							<p style={{ marginTop: 8 }}>
-								{summary.first_trade_timestamp && (
-									<span>First Trade: {new Date(summary.first_trade_timestamp * 1000).toUTCString()} </span>
-								)}
-								{summary.last_trade_timestamp && (
-									<span> | Last Trade: {new Date(summary.last_trade_timestamp * 1000).toUTCString()}</span>
-								)}
-							</p>
-						)}
+			<div className="card" style={{ marginBottom: 12 }}>
+				<div className="row">
+					<input className="input" type="text" placeholder="0x... wallet address" value={walletAddress} onChange={(e) => setWalletAddress(e.target.value)} />
+					<button className="btn primary" onClick={onScanWallet} disabled={loadingSummary || loadingTokens}>{loadingSummary || loadingTokens ? "Scanning..." : "Scan Wallet"}</button>
+				</div>
+				{error && <div className="label" style={{ color: '#fca5a5' }}>{error}</div>}
+			</div>
+
+			{summary && (
+				<div className="card" style={{ marginBottom: 12 }}>
+					<h3 style={{ marginTop: 0 }}>Wallet Summary</h3>
+					<div className="grid cols">
+						<div className="card">Alpha Wallet: {isAlphaWallet ? "Yes ✅" : "No ❌"}</div>
+						<div className="card">Investment: ${formatNumber(summary.total_investment)}</div>
+						<div className="card">Value: ${formatNumber(summary.total_value)}</div>
+						<div className="card">Profit: ${formatNumber(summary.total_profit)}</div>
+						<div className="card">ROI: {formatNumber(summary.total_return)}%</div>
+						<div className="card">Win Rate: {formatNumber((summary.win_rate || 0) * 100)}%</div>
+						<div className="card">Trades: {summary.total_trades}</div>
+						<div className="card">Buy Vol: ${formatNumber(summary.total_buy_volume)}</div>
+						<div className="card">Sell Vol: ${formatNumber(summary.total_sell_volume)}</div>
 					</div>
-				)}
-			</section>
+				</div>
+			)}
 
-			<section style={{ marginBottom: 32 }}>
-				<h2>Per-Token Breakdown</h2>
-				<div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-					<label>
-						<input type="radio" checked={sortPref === "pnl"} onChange={() => setSortPref("pnl")} /> Sort by PnL
-					</label>
-					<label>
-						<input type="radio" checked={sortPref === "date"} onChange={() => setSortPref("date")} /> Sort by Last Trade Date
-					</label>
-					<label>
-						<input type="checkbox" checked={showOverview} onChange={() => setShowOverview((v) => !v)} /> Show Overview
-					</label>
-					<label>
-						<input type="checkbox" checked={showTrades} onChange={() => setShowTrades((v) => !v)} /> Show Trades
-					</label>
-					<label>
-						<input type="checkbox" checked={showBalance} onChange={() => setShowBalance((v) => !v)} /> Show Balance
-					</label>
-					<label>
-						<input type="checkbox" checked={showSmallPositions} onChange={() => setShowSmallPositions((v) => !v)} /> Show Small Positions (< $30 PnL)
-					</label>
-					<label>
-						Tokens per page:
+			<div className="card" style={{ marginBottom: 12 }}>
+				<h3 style={{ marginTop: 0 }}>Per‑Token Breakdown</h3>
+				<div className="row">
+					<label className="label"><input type="radio" checked={sortPref === "pnl"} onChange={() => setSortPref("pnl")} /> Sort by PnL</label>
+					<label className="label"><input type="radio" checked={sortPref === "date"} onChange={() => setSortPref("date")} /> Sort by Last Trade Date</label>
+					<label className="label"><input type="checkbox" checked={showOverview} onChange={() => setShowOverview((v) => !v)} /> Show Overview</label>
+					<label className="label"><input type="checkbox" checked={showTrades} onChange={() => setShowTrades((v) => !v)} /> Show Trades</label>
+					<label className="label"><input type="checkbox" checked={showBalance} onChange={() => setShowBalance((v) => !v)} /> Show Balance</label>
+					<label className="label"><input type="checkbox" checked={showSmallPositions} onChange={() => setShowSmallPositions((v) => !v)} /> Show Small Positions (&lt; $30 PnL)</label>
+					<label className="label">Tokens per page: {" "}
 						<select value={tokensPerPage} onChange={(e) => setTokensPerPage(Number(e.target.value))}>
 							{[1, 2, 3, 4, 5].map((n) => (
 								<option key={n} value={n}>{n}</option>
@@ -214,13 +187,13 @@ const Dashboard = () => {
 					</label>
 				</div>
 
-				{loadingTokens && <p>Loading tokens…</p>}
+				{loadingTokens && <div className="label">Loading tokens…</div>}
 
 				{!loadingTokens && tokens.length > 0 && (
-					<div style={{ marginTop: 12 }}>
+					<div>
 						{showOverview && (
-							<div style={{ padding: 12, border: "1px solid #eee", borderRadius: 8, marginBottom: 12 }}>
-								<h3 style={{ marginTop: 0 }}>Wallet Overview</h3>
+							<div className="card" style={{ marginBottom: 12 }}>
+								<h4 style={{ marginTop: 0 }}>Wallet Overview</h4>
 								{(() => {
 									const totalInvestment = tokens.reduce((s, t) => s + (t.total_investment || 0), 0);
 									const totalValue = tokens.reduce((s, t) => s + (t.total_value || 0), 0);
@@ -232,14 +205,14 @@ const Dashboard = () => {
 									const sells = tokens.reduce((s, t) => s + (t.total_sells || 0), 0);
 									const roi = totalInvestment > 0 ? (totalProfit / totalInvestment) * 100 : 0;
 									return (
-										<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
-											<div>Investment: ${formatNumber(totalInvestment)}</div>
-											<div>Value: ${formatNumber(totalValue)}</div>
-											<div>Profit: ${formatNumber(totalProfit)}</div>
-											<div>ROI: {formatNumber(roi)}%</div>
-											<div>Realized: ${formatNumber(realized)}</div>
-											<div>Unrealized: ${formatNumber(unrealized)}</div>
-											<div>Trades: {trades} (🛒 {buys} | 💸 {sells})</div>
+										<div className="grid cols">
+											<div className="card">Investment: ${formatNumber(totalInvestment)}</div>
+											<div className="card">Value: ${formatNumber(totalValue)}</div>
+											<div className="card">Profit: ${formatNumber(totalProfit)}</div>
+											<div className="card">ROI: {formatNumber(roi)}%</div>
+											<div className="card">Realized: ${formatNumber(realized)}</div>
+											<div className="card">Unrealized: ${formatNumber(unrealized)}</div>
+											<div className="card">Trades: {trades} (🛒 {buys} | 💸 {sells})</div>
 										</div>
 									);
 								})()}
@@ -247,69 +220,67 @@ const Dashboard = () => {
 						)}
 
 						{pageSlice.map((t, idx) => (
-							<div key={`${t.token_symbol}-${idx}`} style={{ padding: 12, border: "1px solid #eee", borderRadius: 8, marginBottom: 12 }}>
-								<h3 style={{ marginTop: 0 }}>🪙 {t.token_symbol} — {t.token_name || 'N/A'}</h3>
-								<p>{(t.total_profit || 0) > 0 ? '✅' : '❌'} Profit: ${formatNumber(t.total_profit)} | ROI: {formatNumber(t.total_return || 0)}%</p>
-								<p>Invested: ${formatNumber(t.total_investment)} | Value: ${formatNumber(t.total_value)}</p>
-								{showTrades && (
-									<p>Trades: {t.total_trades || 0} (🛒 {t.total_buys || 0} | 💸 {t.total_sells || 0})</p>
-								)}
-								<p>Realized: ${formatNumber(t.realized_profit)} | Unrealized: ${formatNumber(t.unrealized_profit)}</p>
-								{showBalance && <p>Balance: {formatNumber(t.trading_balance)}</p>}
+							<div key={`${t.token_symbol}-${idx}`} className="card">
+								<h4 style={{ marginTop: 0 }}>🪙 {t.token_symbol} — {t.token_name || 'N/A'}</h4>
+								<div className="grid cols">
+									<div className="card">Profit: ${formatNumber(t.total_profit)} ({formatNumber(t.total_return || 0)}%)</div>
+									<div className="card">Invested: ${formatNumber(t.total_investment)}</div>
+									<div className="card">Value: ${formatNumber(t.total_value)}</div>
+									<div className="card">Realized: ${formatNumber(t.realized_profit)}</div>
+									<div className="card">Unrealized: ${formatNumber(t.unrealized_profit)}</div>
+									{showBalance && <div className="card">Balance: {formatNumber(t.trading_balance)}</div>}
+									{showTrades && <div className="card">Trades: {t.total_trades || 0} (🛒 {t.total_buys || 0} | 💸 {t.total_sells || 0})</div>}
+								</div>
 								{(t.first_trade_timestamp || t.last_trade_timestamp) && (
-									<p>
-										{t.first_trade_timestamp && <span>First: {new Date(t.first_trade_timestamp * 1000).toUTCString()} </span>}
-										{t.last_trade_timestamp && <span>| Last: {new Date(t.last_trade_timestamp * 1000).toUTCString()}</span>}
-									</p>
+									<div className="label">{t.first_trade_timestamp && <span>First: {new Date(t.first_trade_timestamp * 1000).toUTCString()} </span>}{t.last_trade_timestamp && <span>| Last: {new Date(t.last_trade_timestamp * 1000).toUTCString()}</span>}</div>
 								)}
 							</div>
 						))}
 
 						{numPages > 1 && (
-							<div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-								<button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={currentPage === 0}>‹ Prev</button>
-								<span>{currentPage + 1} / {numPages}</span>
-								<button onClick={() => setPage((p) => Math.min(numPages - 1, p + 1))} disabled={currentPage === numPages - 1}>Next ›</button>
-								<button onClick={() => setPage(0)} disabled={currentPage === 0}>« First</button>
-								<button onClick={() => setPage(numPages - 1)} disabled={currentPage === numPages - 1}>Last »</button>
+							<div className="row" style={{ marginTop: 8 }}>
+								<button className="btn" onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={currentPage === 0}>‹ Prev</button>
+								<span className="label">{currentPage + 1} / {numPages}</span>
+								<button className="btn" onClick={() => setPage((p) => Math.min(numPages - 1, p + 1))} disabled={currentPage === numPages - 1}>Next ›</button>
+								<button className="btn" onClick={() => setPage(0)} disabled={currentPage === 0}>« First</button>
+								<button className="btn" onClick={() => setPage(numPages - 1)} disabled={currentPage === numPages - 1}>Last »</button>
 							</div>
 						)}
 					</div>
 				)}
-			</section>
+			</div>
 
-			<section style={{ marginBottom: 32 }}>
-				<h2>Alpha Wallets by Token</h2>
-				<div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-					<input
-						type="text"
-						placeholder="0x... token contract"
-						value={tokenAddress}
-						onChange={(e) => setTokenAddress(e.target.value)}
-						style={{ flex: 1, minWidth: 320, padding: 8 }}
-					/>
-					<button onClick={() => onScanAlpha(0)} disabled={alphaLoading}>{alphaLoading ? 'Scanning...' : 'Find Early Buyers'}</button>
+			<div className="card">
+				<h3 style={{ marginTop: 0 }}>Alpha Wallets by Token</h3>
+				<div className="row">
+					<input className="input" type="text" placeholder="0x... token contract" value={tokenAddress} onChange={(e) => setTokenAddress(e.target.value)} />
+					<button className="btn" onClick={() => onScanAlpha(0)} disabled={alphaLoading}>{alphaLoading ? 'Scanning...' : 'Find Early Buyers'}</button>
 				</div>
-				{alphaError && <p style={{ color: "#d00" }}>{alphaError}</p>}
+				{alphaError && <div className="label" style={{ color: '#fca5a5' }}>{alphaError}</div>}
 				{alphaResults.length > 0 && (
 					<div style={{ marginTop: 12 }}>
-						<h3 style={{ marginTop: 0 }}>Early Buyers for {alphaMeta.tokenSymbol} ({alphaMeta.tokenName})</h3>
-						<ol>
+						<h4 style={{ marginTop: 0 }}>Early Buyers for {alphaMeta.tokenSymbol} ({alphaMeta.tokenName})</h4>
+						<div className="grid">
 							{alphaResults.map((r, idx) => (
-								<li key={`${r.wallet}-${idx}`} style={{ marginBottom: 8 }}>
-									<span style={{ marginRight: 8 }}>{r.wallet.slice(0, 6)}...{r.wallet.slice(-4)}</span>
-									<span style={{ marginRight: 8 }}>Alpha: {r.isAlpha ? '✅' : '❌'}</span>
-									<span style={{ marginRight: 8 }}>Win Rate: {formatNumber(r.winRate)}%</span>
-									<button onClick={() => { setWalletAddress(r.wallet); }}>Use in Wallet Scan</button>
-								</li>
+								<div key={`${r.wallet}-${idx}`} className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+									<div>
+										<div style={{ fontWeight: 600 }}>{r.wallet.slice(0, 6)}...{r.wallet.slice(-4)}</div>
+										<div className="label">Alpha: {r.isAlpha ? '✅' : '❌'} • Win Rate: {formatNumber(r.winRate)}%</div>
+									</div>
+									<div className="row">
+										<a className="btn" href={`https://etherscan.io/address/${r.wallet}`} target="_blank" rel="noreferrer">Etherscan</a>
+									</div>
+								</div>
 							))}
-						</ol>
+						</div>
 						{alphaMeta.hasMore && (
-							<button onClick={onScanAlphaNext} disabled={alphaLoading}>Scan next 10</button>
+							<div style={{ marginTop: 12 }}>
+								<button className="btn" onClick={onScanAlphaNext} disabled={alphaLoading}>Scan next 10</button>
+							</div>
 						)}
 					</div>
 				)}
-			</section>
+			</div>
 		</Layout>
 	);
 };
