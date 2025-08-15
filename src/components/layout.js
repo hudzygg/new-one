@@ -9,7 +9,7 @@ import * as React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
+import Sidebar from "./Sidebar"
 import "./layout.css"
 
 const Layout = ({ children }) => {
@@ -24,27 +24,22 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{children}</main>
-        <footer
-          style={{
-            marginTop: `2rem`,
-          }}
-        >
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
+    <div className="swiftyy-shell">
+      <Sidebar />
+      <div className="swiftyy-content">
+        <header className="swiftyy-header glass">
+          <div className="header-title">{data.site.siteMetadata?.title || `Swiftyy`}</div>
+          <div className="header-actions">
+            <a className="btn primary" href="/dashboard/">Dashboard</a>
+            <a className="btn" href="/alpha-tracker/">AlphaTracker</a>
+          </div>
+        </header>
+        <main className="swiftyy-main glass">{children}</main>
+        <footer className="swiftyy-footer">
+          © {new Date().getFullYear()} Swiftyy
         </footer>
       </div>
-    </>
+    </div>
   )
 }
 

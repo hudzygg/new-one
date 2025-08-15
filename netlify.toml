@@ -1,0 +1,20 @@
+[build]
+  command = "npm run build"
+  publish = "public"
+  functions = "netlify/functions"
+
+# Redirect frontend calls to Netlify Functions
+[[redirects]]
+  from = "/api/wallet/summary"
+  to = "/.netlify/functions/wallet-summary"
+  status = 200
+
+[[redirects]]
+  from = "/api/wallet/tokens"
+  to = "/.netlify/functions/wallet-tokens"
+  status = 200
+
+[[redirects]]
+  from = "/api/token/alpha"
+  to = "/.netlify/functions/token-alpha"
+  status = 200
